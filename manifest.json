@@ -1,0 +1,19 @@
+{
+  "id": "logseq-meilisearch-search",
+  "name": "MeiliSearch Search",
+  "description": "Full‑text fuzzy search powered by embedded MeiliSearch.",
+  "author": "Peter Denham",
+  "version": "0.1.0",
+  "main": "./dist/background.js",
+  "icon": "./assets/icon.png",
+  "logseq": {
+    "enableCommandPalette": true,
+    "commands": [
+      {
+        "key": "open-search",
+        "label": "Open MeiliSearch Search"
+      }
+    ]
+  },
+  "permissions": ["filesystem"]
+}
