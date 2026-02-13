@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "esbuild src/main.ts --bundle --outfile=dist/index.js --platform=node --format=cjs --external:@logseq/libs --external:electron --jsx=automatic --loader:.tsx=tsx",
+    "build": "esbuild src/main.ts --bundle --outfile=dist/index.js --platform=node --target=chrome90 --format=esm --external:@logseq/libs --jsx=automatic --loader:.tsx=tsx --banner:js=\"var exports={},module={exports:exports};\"",
     "start": "npm run build && node dist/background.js"
   },
   "keywords": [],
