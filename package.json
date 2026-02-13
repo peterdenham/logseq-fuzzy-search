@@ -38,5 +38,8 @@
     "node-fetch": "^2.7.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
+  },
+  "logseq": {
+    "id": "_5j4ge5o7z"
   }
 }
