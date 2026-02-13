@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "esbuild src/main.ts --bundle --outfile=dist/index.js --platform=node --target=chrome90 --format=iife --global-name=LSPluginUser --external:@logseq/libs --jsx=automatic --loader:.tsx=tsx",
+    "build": "esbuild src/main.ts --bundle --outfile=dist/index.js --platform=node --target=chrome90 --format=iife --global-name=LSPluginUser --external:@logseq/libs --jsx=automatic --loader:.tsx=tsx --define:process.env.NODE_ENV='\"production\"' --inject:./process-shim.js",
     "start": "npm run build && node dist/background.js"
   },
   "keywords": [],
