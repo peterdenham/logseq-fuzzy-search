@@ -3,12 +3,13 @@
     "target": "ES2020",
     "module": "CommonJS",
     "outDir": "dist",
-    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react"
+    "jsx": "react",
+    "types": ["jest", "@testing-library/jest-dom", "node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["tests/**/*", "node_modules"]
 }

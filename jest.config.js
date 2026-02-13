@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'mjs'],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
@@ -8,5 +8,6 @@ module.exports = {
   },
   transformIgnorePatterns: [],
   testMatch: ['**/tests/**/*.test.ts', '**/tests/**/*.test.tsx'],
-  extensionsToTreatAsEsm: ['.ts']
+  extensionsToTreatAsEsm: ['.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
 };
