@@ -4,7 +4,7 @@
   "description": "Full‑text fuzzy search powered by embedded MeiliSearch.",
   "author": "Peter Denham",
   "version": "0.1.0",
-  "main": "./dist/main.js",
+  "main": "index.js",
   "icon": "./assets/icon.png",
   "logseq": {
     "enableCommandPalette": true,
