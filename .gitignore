@@ -1,4 +1,3 @@
 node_modules/
-.dist/
+dist/
 .meilisearch-index-cache.json
-assets/meilisearch-*
