@@ -13,36 +13,36 @@ function mount() {
   root.render(React.createElement(SearchBar));
 }
 
-async function main() {
-  console.log('[MeiliSearch Plugin] Initializing...');
-  
+async function startBackendServices() {
   try {
     await startMeili();
-    console.log('[MeiliSearch Plugin] MeiliSearch started successfully');
+    console.log('[MeiliSearch] Server started');
     
     const graphPath = await logseq.App.getCurrentGraph();
     if (graphPath?.path) {
       const pagesPath = `${graphPath.path}/pages`;
       startWatcher(pagesPath);
-      console.log('[MeiliSearch Plugin] Watching:', pagesPath);
+      console.log('[MeiliSearch] Watching:', pagesPath);
     }
   } catch (error) {
-    console.error('[MeiliSearch Plugin] Failed to start:', error);
-    logseq.UI.showMsg('MeiliSearch plugin failed to start. Check console for details.', 'error');
+    console.error('[MeiliSearch] Failed to start:', error);
+    logseq.UI.showMsg('MeiliSearch failed to start. Check console.', 'error');
   }
-  
+}
+
+function main() {
   logseq.ready(() => {
     logseq.App.registerCommandPalette({
       key: 'open-search',
       label: 'Open MeiliSearch Search'
     }, () => mount());
-    
-    console.log('[MeiliSearch Plugin] Ready!');
-  });
-  
-  logseq.beforeunload(async () => {
-    stopMeili();
+
+    logseq.beforeunload(async () => {
+      stopMeili();
+    });
+
+    startBackendServices();
   });
 }
 
-main();
+logseq.ready(main).catch(console.error);
