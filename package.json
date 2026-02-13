@@ -2,7 +2,7 @@
   "name": "logsearch",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "directories": {
     "test": "tests"
   },
