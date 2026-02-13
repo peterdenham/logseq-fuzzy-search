@@ -8,8 +8,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "esbuild src/main.ts --bundle --outfile=dist/index.js --platform=node --target=chrome90 --format=iife --global-name=LSPluginUser --external:@logseq/libs --jsx=automatic --loader:.tsx=tsx --define:process.env.NODE_ENV='\"production\"' --inject:./process-shim.js",
-    "start": "npm run build && node dist/background.js"
+    "build": "esbuild src/main.ts --bundle --outfile=dist/index.js --platform=browser --format=iife --global-name=LSPluginUser --external:@logseq/libs --target=chrome90"
   },
   "keywords": [],
   "author": "",
@@ -35,8 +34,7 @@
   },
   "dependencies": {
     "@logseq/libs": "^0.0.17",
-    "chokidar": "^5.0.0",
-    "node-fetch": "^2.7.0",
+    "minisearch": "^7.2.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
