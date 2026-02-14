@@ -1,5 +1,5 @@
 {
-  "name": "logseq-fuzzy-search",
+  "name": "fuzzy-search",
   "version": "1.0.0",
   "description": "Fuzzy search for Logseq with typo tolerance and relevance ranking",
   "main": "index.html",
@@ -19,6 +19,6 @@
     "minisearch": "^7.2.0"
   },
   "logseq": {
-    "id": "logseq-fuzzy-search"
+    "id": "fuzzy-search"
   }
 }

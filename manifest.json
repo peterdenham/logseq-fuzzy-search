@@ -1,5 +1,5 @@
 {
-  "id": "logseq-fuzzy-search",
+  "id": "fuzzy-search",
   "title": "Fuzzy Search",
   "description": "Fuzzy search with typo tolerance and relevance ranking.",
   "author": "Peter Denham",
@@ -7,6 +7,6 @@
   "icon": "",
   "main": "index.html",
   "logseq": {
-    "id": "logseq-fuzzy-search"
+    "id": "fuzzy-search"
   }
 }
