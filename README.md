@@ -2,6 +2,8 @@
 
 Fast fuzzy search across all your Logseq pages and blocks with typo tolerance and relevance ranking. Powered by [MiniSearch](https://github.com/lucaong/minisearch).
 
+!! Fuzzy search was developed for the original Markdown (MD) based version of Logseq, not Logseq DB.
+
 ## Features
 
 - **Fuzzy matching** — tolerates typos (up to 20% character difference)
