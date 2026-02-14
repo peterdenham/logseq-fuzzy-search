@@ -1,17 +1,76 @@
-import { buildIndex, search } from './search-engine';
+import { buildIndex, search, SearchResult, invalidateIndex, isIndexReady } from './search-engine';
 
-function createSearchUI() {
-  const container = document.getElementById('app') || document.createElement('div');
-  container.id = 'app';
-  container.innerHTML = '';
+let currentResults: SearchResult[] = [];
+let selectedIndex = -1;
+
+function updateSelection(resultsList: HTMLUListElement) {
+  const items = resultsList.querySelectorAll('li:not(.no-results)');
+  items.forEach((li, i) => {
+    li.classList.toggle('selected', i === selectedIndex);
+  });
+  if (selectedIndex >= 0 && items[selectedIndex]) {
+    items[selectedIndex].scrollIntoView({ block: 'nearest' });
+  }
+}
+
+function openResult(result: SearchResult) {
+  logseq.Editor.scrollToBlockInPage(result.pageName, result.uuid);
+  logseq.hideMainUI();
+}
+
+function renderResults(resultsList: HTMLUListElement) {
+  resultsList.innerHTML = '';
+
+  if (currentResults.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'no-results';
+    li.textContent = 'No results found';
+    resultsList.appendChild(li);
+    return;
+  }
+
+  for (const hit of currentResults) {
+    const li = document.createElement('li');
+
+    const title = document.createElement('div');
+    title.className = 'result-title';
+    title.textContent = hit.pageName;
+
+    const snippet = document.createElement('div');
+    snippet.className = 'result-snippet';
+    snippet.textContent = hit.content.slice(0, 140);
+
+    li.appendChild(title);
+    li.appendChild(snippet);
+
+    li.addEventListener('click', () => openResult(hit));
+    resultsList.appendChild(li);
+  }
+}
+
+async function createSearchUI() {
+  const app = document.getElementById('app');
+  if (!app) return;
+  app.innerHTML = '';
+  currentResults = [];
+  selectedIndex = -1;
+
+  if (!isIndexReady()) {
+    const loading = document.createElement('div');
+    loading.className = 'no-results';
+    loading.textContent = 'Indexing pages...';
+    app.appendChild(loading);
+    await buildIndex();
+    app.removeChild(loading);
+  }
 
   const input = document.createElement('input');
   input.type = 'text';
   input.placeholder = 'Search notes...';
-  input.style.cssText = 'width:100%;padding:8px;font-size:14px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;';
+  input.id = 'search-input';
 
   const resultsList = document.createElement('ul');
-  resultsList.style.cssText = 'list-style:none;padding:0;margin:8px 0 0 0;max-height:400px;overflow-y:auto;';
+  resultsList.id = 'results-list';
 
   let debounceTimer: ReturnType<typeof setTimeout>;
 
@@ -19,71 +78,75 @@ function createSearchUI() {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       const query = input.value.trim();
-      resultsList.innerHTML = '';
+      currentResults = [];
+      selectedIndex = -1;
 
-      if (!query) return;
-
-      const results = search(query);
-      if (results.length === 0) {
-        resultsList.innerHTML = '<li style="padding:8px;color:#999;">No results found</li>';
+      if (!query) {
+        resultsList.innerHTML = '';
         return;
       }
 
-      for (const hit of results) {
-        const li = document.createElement('li');
-        li.style.cssText = 'padding:8px;border-bottom:1px solid #eee;cursor:pointer;';
-        li.innerHTML = `<strong>${hit.name}</strong><br><span style="color:#666;font-size:12px;">${hit.content.slice(0, 120)}...</span>`;
-        li.addEventListener('click', () => {
-          logseq.App.pushState('page', { name: hit.name });
-          logseq.hideMainUI();
-        });
-        resultsList.appendChild(li);
-      }
+      currentResults = search(query);
+      renderResults(resultsList);
     }, 150);
   });
 
-  container.appendChild(input);
-  container.appendChild(resultsList);
-  document.body.appendChild(container);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') {
+      if (currentResults.length === 0) return;
+      e.preventDefault();
+      selectedIndex = Math.min(selectedIndex + 1, currentResults.length - 1);
+      updateSelection(resultsList);
+    } else if (e.key === 'ArrowUp') {
+      if (currentResults.length === 0) return;
+      e.preventDefault();
+      selectedIndex = Math.max(selectedIndex - 1, 0);
+      updateSelection(resultsList);
+    } else if (e.key === 'Enter') {
+      if (currentResults.length === 0) return;
+      e.preventDefault();
+      const idx = selectedIndex >= 0 ? selectedIndex : 0;
+      openResult(currentResults[idx]);
+    }
+  });
+
+  app.appendChild(input);
+  app.appendChild(resultsList);
 
   setTimeout(() => input.focus(), 100);
 }
 
 function main() {
-  logseq.provideStyle(`
-    #logseq-meilisearch-search--logsearch {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 15vh;
-      background: rgba(0,0,0,0.5);
-      z-index: 999;
-    }
-    #app {
-      background: white;
-      border-radius: 8px;
-      padding: 16px;
-      width: 600px;
-      max-width: 90vw;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    }
-  `);
+  logseq.setMainUIInlineStyle({
+    zIndex: 999,
+  });
 
   logseq.App.registerCommandPalette({
     key: 'open-search',
-    label: 'Open MeiliSearch Search'
+    label: 'Open Fuzzy Search',
+    keybinding: { binding: 'mod+shift+s' }
   }, async () => {
-    await buildIndex();
-    createSearchUI();
-    logseq.showMainUI();
+    await createSearchUI();
+    logseq.showMainUI({ autoFocus: true });
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       logseq.hideMainUI();
     }
+  });
+
+  const overlay = document.getElementById('search-overlay');
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        logseq.hideMainUI();
+      }
+    });
+  }
+
+  logseq.DB.onChanged(() => {
+    invalidateIndex();
   });
 
   buildIndex();

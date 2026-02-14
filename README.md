@@ -1,63 +1,46 @@
-# Logseq MeiliSearch Search Plugin
+# Fuzzy Search for Logseq
 
-Full-text fuzzy search for Logseq powered by an embedded MeiliSearch server.
+Fast fuzzy search across all your Logseq pages and blocks with typo tolerance and relevance ranking. Powered by [MiniSearch](https://github.com/lucaong/minisearch).
 
 ## Features
 
-- **Embedded MeiliSearch** - No external installation required (macOS x64)
-- **Incremental Indexing** - Automatically watches your graph for changes
-- **Fuzzy Ranking** - Typo-tolerant search with relevance scoring
-- **React UI** - Clean search interface integrated into Logseq
+- **Fuzzy matching** — tolerates typos (up to 20% character difference)
+- **Prefix search** — matches as you type
+- **Block-level results** — navigates directly to the matching block
+- **Relevance ranking** — page names weighted higher, BM25 scoring
+- **Instant results** — index built at startup, auto-refreshes on changes
+- **Keyboard navigation** — arrow keys to browse, Enter to open
+- **Keyboard shortcut** — `Cmd+Shift+S` (Mac) / `Ctrl+Shift+S` (Windows/Linux)
 
 ## Installation
 
-1. **Copy this plugin to your Logseq plugins directory:**
-   ```bash
-   cp -r /Users/peterdenham/dev/logsearch ~/Documents/logseq-personal/.logseq/plugins/
-   ```
+### From Logseq Marketplace
+1. Open Logseq → Plugins → Marketplace
+2. Search for "Fuzzy Search"
+3. Click Install
 
-2. **Enable the plugin in Logseq:**
-   - Open Logseq Settings → Plugins
-   - Find "MeiliSearch Search" and enable it
+### Manual
+1. Download the latest release zip
+2. In Logseq, go to Plugins → Load unpacked plugin
+3. Select the extracted folder
 
-3. **Start using search:**
-   - Press `Ctrl/Cmd + Shift + P` to open command palette
-   - Run **"Open MeiliSearch Search"**
-   - Type your query and see ranked results instantly
+## Usage
+
+- Press `Cmd+Shift+S` (Mac) or `Ctrl+Shift+S` (Windows/Linux)
+- Or use Command Palette → "Open Fuzzy Search"
+- Type your query — results appear instantly
+- Use `↑`/`↓` arrow keys to navigate results
+- Press `Enter` to open the selected result (or the first result)
+- Click a result to navigate to that block
+- Press `Escape` or click outside to close
 
 ## Development
 
-### Build
 ```bash
 npm install
 npm run build
 ```
 
-### Test
-```bash
-npm test
-```
-
-### Stop MeiliSearch Server
-```bash
-bash scripts/stop-meili.sh
-```
-
-## Architecture
-
-- **Background Process** (`src/background.ts`) - Spawns the MeiliSearch binary on plugin load
-- **Indexer** (`src/indexer.ts`) - Extracts content from Markdown files and indexes to MeiliSearch
-- **Watcher** (`src/watcher.ts`) - Monitors `pages/` directory for file changes
-- **UI Components** (`src/ui/`) - React-based search bar and results panel
-- **Main Entry** (`src/main.ts`) - Logseq plugin initialization
-
-## Configuration
-
-By default, the plugin:
-- Runs MeiliSearch on `http://127.0.0.1:7700`
-- Indexes all `.md` files in your Logseq graph
-- Stores index data in `data.ms/`
-
 ## License
 
-ISC
+MIT

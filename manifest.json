@@ -1,19 +1,12 @@
 {
-  "id": "logseq-meilisearch-search",
-  "name": "MeiliSearch Search",
-  "description": "Full‑text fuzzy search powered by embedded MeiliSearch.",
+  "id": "logseq-fuzzy-search",
+  "title": "Fuzzy Search",
+  "description": "Fuzzy search with typo tolerance and relevance ranking.",
   "author": "Peter Denham",
-  "version": "0.1.0",
+  "repo": "",
+  "icon": "",
   "main": "index.html",
-  "icon": "./assets/icon.png",
   "logseq": {
-    "enableCommandPalette": true,
-    "commands": [
-      {
-        "key": "open-search",
-        "label": "Open MeiliSearch Search"
-      }
-    ]
-  },
-  "permissions": ["filesystem"]
+    "id": "logseq-fuzzy-search"
+  }
 }
