@@ -5,6 +5,40 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>Fuzzy Search</title>
   <style>
+    :root {
+      --fs-overlay: rgba(0, 0, 0, 0.3);
+      --fs-bg: #ffffff;
+      --fs-border: #ddd;
+      --fs-text: #333;
+      --fs-input-bg: #f5f5f5;
+      --fs-input-text: #333;
+      --fs-input-border: #ccc;
+      --fs-placeholder: #999;
+      --fs-accent: #2969b0;
+      --fs-accent-glow: rgba(41, 105, 176, 0.2);
+      --fs-hover: #f0f0f0;
+      --fs-divider: #eee;
+      --fs-snippet: #666;
+      --fs-muted: #888;
+      --fs-shadow: rgba(0, 0, 0, 0.15);
+    }
+    html.dark {
+      --fs-overlay: rgba(0, 0, 0, 0.6);
+      --fs-bg: #2e2e2e;
+      --fs-border: #444;
+      --fs-text: #d4d4d4;
+      --fs-input-bg: #3a3a3a;
+      --fs-input-text: #e0e0e0;
+      --fs-input-border: #555;
+      --fs-placeholder: #888;
+      --fs-accent: #6b9edd;
+      --fs-accent-glow: rgba(107, 158, 221, 0.25);
+      --fs-hover: #3a3a3a;
+      --fs-divider: #3a3a3a;
+      --fs-snippet: #999;
+      --fs-muted: #888;
+      --fs-shadow: rgba(0, 0, 0, 0.5);
+    }
     * {
       margin: 0;
       padding: 0;
@@ -15,7 +49,7 @@
       width: 100%;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       font-size: 14px;
-      color: #d4d4d4;
+      color: var(--fs-text);
       background: transparent;
     }
     #search-overlay {
@@ -25,21 +59,21 @@
       align-items: flex-start;
       justify-content: center;
       padding-top: 80px;
-      background: rgba(0, 0, 0, 0.6);
+      background: var(--fs-overlay);
     }
     #app {
-      background: #2e2e2e;
+      background: var(--fs-bg);
       border-radius: 10px;
       padding: 16px;
       width: 620px;
       max-width: 90vw;
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-      border: 1px solid #444;
+      box-shadow: 0 8px 40px var(--fs-shadow);
+      border: 1px solid var(--fs-border);
     }
     #app input[type="text"] {
-      background: #3a3a3a;
-      color: #e0e0e0;
-      border: 1px solid #555;
+      background: var(--fs-input-bg);
+      color: var(--fs-input-text);
+      border: 1px solid var(--fs-input-border);
       border-radius: 6px;
       padding: 10px 12px;
       font-size: 15px;
@@ -48,11 +82,11 @@
       font-family: inherit;
     }
     #app input[type="text"]:focus {
-      border-color: #6b9edd;
-      box-shadow: 0 0 0 2px rgba(107, 158, 221, 0.25);
+      border-color: var(--fs-accent);
+      box-shadow: 0 0 0 2px var(--fs-accent-glow);
     }
     #app input[type="text"]::placeholder {
-      color: #888;
+      color: var(--fs-placeholder);
     }
     #results-list {
       list-style: none;
@@ -63,28 +97,28 @@
     }
     #results-list li {
       padding: 10px 12px;
-      border-bottom: 1px solid #3a3a3a;
+      border-bottom: 1px solid var(--fs-divider);
       cursor: pointer;
       border-radius: 6px;
       transition: background 0.1s;
     }
     #results-list li:hover,
     #results-list li.selected {
-      background: #3a3a3a;
+      background: var(--fs-hover);
     }
     #results-list li .result-title {
-      color: #6b9edd;
+      color: var(--fs-accent);
       font-weight: 600;
       font-size: 14px;
       margin-bottom: 3px;
     }
     #results-list li .result-snippet {
-      color: #999;
+      color: var(--fs-snippet);
       font-size: 12px;
       line-height: 1.4;
     }
     #results-list .no-results {
-      color: #888;
+      color: var(--fs-muted);
       text-align: center;
       padding: 20px 10px;
       font-style: italic;

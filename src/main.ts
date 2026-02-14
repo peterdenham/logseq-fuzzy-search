@@ -116,9 +116,22 @@ async function createSearchUI() {
   setTimeout(() => input.focus(), 100);
 }
 
+async function applyTheme(mode?: string) {
+  if (!mode) {
+    const config = await logseq.App.getUserConfigs();
+    mode = config.preferredThemeMode;
+  }
+  document.documentElement.classList.toggle('dark', mode === 'dark');
+}
+
 function main() {
   logseq.setMainUIInlineStyle({
     zIndex: 999,
+  });
+
+  applyTheme();
+  logseq.App.onThemeModeChanged(({ mode }: { mode: string }) => {
+    applyTheme(mode);
   });
 
   logseq.App.registerCommandPalette({
