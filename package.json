@@ -1,5 +1,5 @@
 {
-  "name": "fuzzy-search",
+  "name": "Fuzzy Search",
   "version": "1.0.0",
   "description": "Fuzzy search for Logseq with typo tolerance and relevance ranking",
   "main": "index.html",
