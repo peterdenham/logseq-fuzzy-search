@@ -3,7 +3,7 @@
   "title": "Fuzzy Search",
   "description": "Fuzzy search with typo tolerance and relevance ranking.",
   "author": "Peter Denham",
-  "repo": "",
+  "repo": "https://github.com/peterdenham/logseq-fuzzy-search?tab=readme-ov-file",
   "icon": "",
   "main": "index.html",
   "logseq": {
