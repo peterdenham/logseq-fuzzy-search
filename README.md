@@ -26,6 +26,8 @@ Fast fuzzy search across all your Logseq pages and blocks with typo tolerance an
 2. Search for "Fuzzy Search"
 3. Click Install
 
+![Screenshot Marketplace](screenshot-marketplace.png)
+
 ### Manual
 1. Download the latest release zip
 2. In Logseq, go to Plugins → Load unpacked plugin
@@ -40,6 +42,8 @@ Fast fuzzy search across all your Logseq pages and blocks with typo tolerance an
 - Press `Enter` to open the selected result (or the first result)
 - Click a result to navigate to that block
 - Press `Escape` or click outside to close
+
+![Screenrecording Demo](screenrecording-demo.gif)
 
 ## Development
 
